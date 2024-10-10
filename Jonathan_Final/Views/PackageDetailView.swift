@@ -11,15 +11,14 @@ struct PackageDetailView: View {
     @EnvironmentObject var packageManager: PackageManager
     @State var package: Package
     @State private var deliveryAddress: String
-    @State private var carrier: String
+    @State private var carrier: CarrierType
     @State private var deliveryDate: Date
-    @State private var selectedCarrier: CarrierType = .FedEx
     @State private var status: Bool
     
     init(package: Package) {
         _package = State(initialValue: package)
         _deliveryAddress = State(initialValue: package.deliveryAddress)
-        _carrier = State(initialValue: package.carrier.rawValue)
+        _carrier = State(initialValue: package.carrier)
         _deliveryDate = State(initialValue: package.deliveryDate)
         _status = State(initialValue: package.status == "Delivered")
     }
@@ -30,7 +29,7 @@ struct PackageDetailView: View {
                 Text("Package ID: \(package.packageID)")
                 TextField("Delivery Address", text: $deliveryAddress)
                 DatePicker("Delivery Date", selection: $deliveryDate, displayedComponents: .date)
-                Picker("Carrier", selection: $selectedCarrier) {
+                Picker("Carrier", selection: $carrier) {
                     ForEach(CarrierType.allCases) { carrier in
                         Text(carrier.rawValue).tag(carrier)
                     }
@@ -41,7 +40,7 @@ struct PackageDetailView: View {
             Button("Update Package") {
                 package.deliveryAddress = deliveryAddress
                 package.deliveryDate = deliveryDate
-                package.carrier = selectedCarrier
+                package.carrier = carrier
                 package.status = status ? "Delivered" : "In Transit"
                 packageManager.updatePackage(package)
             }
