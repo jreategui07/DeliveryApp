@@ -12,19 +12,27 @@ struct PackageListView: View {
     
     var body: some View {
             NavigationView {
-                List {
-                    ForEach(packageManager.packages) { package in
-                        NavigationLink(destination: PackageDetailView(package: package)) {
-                            VStack(alignment: .leading) {
-                                Text("Package ID: \(package.packageID)")
-                                Text("Delivery Date: \(package.deliveryDate, style: .date)")
-                                Text("Status: \(package.status)")
+                Group {
+                    if packageManager.packages.isEmpty {
+                        Text("No packages to display.")
+                            .font(.headline)
+                            .foregroundColor(.gray)
+                    } else {
+                        List {
+                            ForEach(packageManager.packages) { package in
+                                NavigationLink(destination: PackageDetailView(package: package)) {
+                                    VStack(alignment: .leading) {
+                                        Text("Package ID: \(package.packageID)")
+                                        Text("Delivery Date: \(package.deliveryDate, style: .date)")
+                                        Text("Status: \(package.status)")
+                                    }
+                                }
                             }
+                            .onDelete(perform: packageManager.deletePackage)
                         }
                     }
-                    .onDelete(perform: packageManager.deletePackage)
                 }
-                .navigationBarTitle("Your Name")
+                .navigationBarTitle("Package List App")
                 .navigationBarItems(trailing: NavigationLink(
                         "Add Package",
                         destination: NewPackageView()
@@ -34,5 +42,28 @@ struct PackageListView: View {
 }
 
 #Preview {
+    // to simulate when there is not any package
     PackageListView().environmentObject(PackageManager())
+}
+
+#Preview {
+    // to simulate when there are packages in storage
+    let previewPackageManager = PackageManager()
+    previewPackageManager.packages = [
+        Package(
+            packageID: "123456",
+            deliveryAddress: "123 Main St",
+            deliveryDate: Date(),
+            carrier: .FedEx,
+            status: "In Transit"
+        ),
+        Package(
+            packageID: "654321",
+            deliveryAddress: "456 Oak St",
+            deliveryDate: Date(),
+            carrier: .UPS,
+            status: "Delivered"
+        )
+    ]
+    return PackageListView().environmentObject(previewPackageManager)
 }
