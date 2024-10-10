@@ -29,7 +29,11 @@ struct PackageDetailView: View {
             Section(header: Text("Package Details")) {
                 Text("Package ID: \(package.packageID)")
                 TextField("Delivery Address", text: $deliveryAddress)
-                DatePicker("Delivery Date", selection: $deliveryDate, displayedComponents: .date)
+                DatePicker(
+                    "Delivery Date",
+                    selection: $deliveryDate,
+                    displayedComponents: .date
+                )
                 Picker("Carrier", selection: $carrier) {
                     ForEach(CarrierType.allCases) { carrier in
                         Text(carrier.rawValue).tag(carrier)
