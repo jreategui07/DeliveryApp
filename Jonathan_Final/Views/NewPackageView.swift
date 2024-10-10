@@ -15,11 +15,17 @@ struct NewPackageView: View {
     @State private var deliveryDate = Date()
     @State private var selectedCarrier: CarrierType = .FedEx
     @State private var status = false
+    @State private var showErrorMessage: Bool = false
     
     var body: some View {
         Form {
             Section(header: Text("Package Details")) {
                 TextField("Package ID", text: $packageID)
+                    .keyboardType(.numberPad)
+                    .onChange(of: packageID) { _ in
+                        showErrorMessage = !isPackageIdValid()
+                    }
+                
                 TextField("Delivery Address", text: $deliveryAddress)
                 DatePicker("Delivery Date", 
                            selection: $deliveryDate,
@@ -32,17 +38,29 @@ struct NewPackageView: View {
                     }
                 }
                 Toggle("Delivered", isOn: $status)
+                // to display an error message is the package is not valid (only numbers)
+                if showErrorMessage {
+                    Text("Invalid Package ID. Please enter only numbers.")
+                        .foregroundColor(.red)
+                }
             }
             
             Button("Save Package") {
                 savePackage()
             }
-            .disabled(packageID.isEmpty || deliveryAddress.isEmpty)
+            .disabled(
+                packageID.isEmpty ||
+                deliveryAddress.isEmpty ||
+                !isPackageIdValid()
+            )
         }
         .navigationTitle("New Package")
     }
     
     private func savePackage() {
+        if !isPackageIdValid() {
+            return
+        }
         let newPackage = Package(
             packageID: packageID,
             deliveryAddress: deliveryAddress,
@@ -52,6 +70,11 @@ struct NewPackageView: View {
         )
         packageManager.addPackage(newPackage)
         dismiss()
+    }
+    
+    private func isPackageIdValid() -> Bool {
+        // packageID shold be a string of numbers
+        return packageID.allSatisfy { $0.isNumber }
     }
 }
 
