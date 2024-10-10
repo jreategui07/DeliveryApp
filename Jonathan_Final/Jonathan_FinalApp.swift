@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct Jonathan_FinalApp: App {
+    @StateObject private var packageManager = PackageManager()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(packageManager)
         }
     }
 }

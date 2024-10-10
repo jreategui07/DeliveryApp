@@ -9,16 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        /**
+         ContentView can handles initial logic or validations before displaying PackageListView, keeping separation of concerns
+         */
+        PackageListView()
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView().environmentObject(PackageManager())
 }
