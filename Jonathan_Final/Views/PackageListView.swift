@@ -9,36 +9,58 @@ import SwiftUI
 
 struct PackageListView: View {
     @EnvironmentObject var packageManager: PackageManager
+    @State private var selectedFilter: FilterOption = .all
+    
+    var filteredPackages: [Package] {
+        switch selectedFilter {
+        case .all:
+            return packageManager.packages
+        case .delivered:
+            return packageManager.packages.filter { $0.status == .delivered }
+        case .inTransit:
+            return packageManager.packages.filter { $0.status == .inTransit }
+        }
+    }
     
     var body: some View {
-            NavigationView {
-                Group {
-                    if packageManager.packages.isEmpty {
-                        Text("No packages to display.")
-                            .font(.headline)
-                            .foregroundColor(.gray)
-                    } else {
-                        List {
-                            ForEach(packageManager.packages) { package in
-                                NavigationLink(destination: PackageDetailView(package: package)) {
-                                    VStack(alignment: .leading) {
-                                        Text("Package ID: \(package.packageID)")
-                                        Text("Delivery Date: \(package.deliveryDate, style: .date)")
-                                        Text("Status: \(package.status.rawValue)")
-                                    }
-                                }
-                            }
-                            .onDelete(perform: packageManager.deletePackage)
-                        }
+        NavigationStack {
+            VStack {
+                Picker("Filter status", selection: $selectedFilter) {
+                    ForEach(FilterOption.allCases) { option in
+                        Text(option.rawValue).tag(option)
                     }
                 }
-                .navigationBarTitle("Jonathan")
-                .navigationBarItems(trailing: NavigationLink(
-                        "New Package",
-                        destination: NewPackageView()
-                ))
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
+                
+                List {
+                    ForEach(filteredPackages) { package in
+                        NavigationLink(destination: PackageDetailView(package: package)) {
+                            VStack(alignment: .leading) {
+                                Text("Package ID: \(package.packageID)")
+                                Text("Delivery Date: \(package.deliveryDate, style: .date)")
+                                Text("Status: \(package.status.rawValue)")
+                            }
+                        }
+                    }
+                    .onDelete(perform: packageManager.deletePackage)
+                }
+                .overlay(
+                    // to display a message when there is not packages to display
+                    filteredPackages.isEmpty ?
+                    Text("No packages to display.")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                    : nil
+                )
             }
+            .navigationBarTitle("Jonathan")
+            .navigationBarItems(trailing: NavigationLink(
+                    "New Package",
+                    destination: NewPackageView()
+            ))
         }
+    }
 }
 
 #Preview {

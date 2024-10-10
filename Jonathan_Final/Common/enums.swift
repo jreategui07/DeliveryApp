@@ -13,6 +13,13 @@ enum CarrierType: String, CaseIterable, Identifiable, Codable {
 }
 
 enum PackageStatus: String, Codable {
-    case delivered = "Delivered"
     case inTransit = "In Transit"
+    case delivered = "Delivered"
+}
+
+enum FilterOption: String, CaseIterable, Identifiable {
+    case all = "All"
+    case inTransit = "In Transit"
+    case delivered = "Delivered"
+    var id: String { self.rawValue }
 }
