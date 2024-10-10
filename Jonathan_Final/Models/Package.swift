@@ -13,9 +13,9 @@ class Package: Codable, Identifiable {
     var deliveryAddress: String
     var deliveryDate: Date
     var carrier: CarrierType
-    var status: String
+    var status: PackageStatus
     
-    init(packageID: String, deliveryAddress: String, deliveryDate: Date, carrier: CarrierType, status: String) {
+    init(packageID: String, deliveryAddress: String, deliveryDate: Date, carrier: CarrierType, status: PackageStatus) {
         self.packageID = packageID
         self.deliveryAddress = deliveryAddress
         self.deliveryDate = deliveryDate

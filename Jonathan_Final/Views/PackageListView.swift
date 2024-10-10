@@ -24,7 +24,7 @@ struct PackageListView: View {
                                     VStack(alignment: .leading) {
                                         Text("Package ID: \(package.packageID)")
                                         Text("Delivery Date: \(package.deliveryDate, style: .date)")
-                                        Text("Status: \(package.status)")
+                                        Text("Status: \(package.status.rawValue)")
                                     }
                                 }
                             }
@@ -32,9 +32,9 @@ struct PackageListView: View {
                         }
                     }
                 }
-                .navigationBarTitle("Package List App")
+                .navigationBarTitle("Jonathan")
                 .navigationBarItems(trailing: NavigationLink(
-                        "Add Package",
+                        "New Package",
                         destination: NewPackageView()
                 ))
             }
@@ -55,14 +55,14 @@ struct PackageListView: View {
             deliveryAddress: "123 Main St",
             deliveryDate: Date(),
             carrier: .FedEx,
-            status: "In Transit"
+            status: .inTransit
         ),
         Package(
             packageID: "654321",
             deliveryAddress: "456 Oak St",
             deliveryDate: Date(),
             carrier: .UPS,
-            status: "Delivered"
+            status: .delivered
         )
     ]
     return PackageListView().environmentObject(previewPackageManager)

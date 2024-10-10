@@ -11,3 +11,8 @@ enum CarrierType: String, CaseIterable, Identifiable, Codable {
     case DHL = "DHL"
     var id: CarrierType { self }
 }
+
+enum PackageStatus: String, Codable {
+    case delivered = "Delivered"
+    case inTransit = "In Transit"
+}

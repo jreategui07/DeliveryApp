@@ -20,7 +20,11 @@ struct NewPackageView: View {
             Section(header: Text("Package Details")) {
                 TextField("Package ID", text: $packageID)
                 TextField("Delivery Address", text: $deliveryAddress)
-                DatePicker("Delivery Date", selection: $deliveryDate, displayedComponents: .date)
+                DatePicker("Delivery Date", 
+                           selection: $deliveryDate,
+                           in: Date.now...,
+                           displayedComponents: .date
+                )
                 Picker("Carrier", selection: $selectedCarrier) {
                     ForEach(CarrierType.allCases) { carrier in
                         Text(carrier.rawValue).tag(carrier)
@@ -35,7 +39,7 @@ struct NewPackageView: View {
                     deliveryAddress: deliveryAddress,
                     deliveryDate: deliveryDate,
                     carrier: selectedCarrier,
-                    status: status ? "Delivered" : "In Transit"
+                    status: status ? .delivered : .inTransit
                 )
                 packageManager.addPackage(newPackage)
             }

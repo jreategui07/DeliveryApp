@@ -20,7 +20,7 @@ struct PackageDetailView: View {
         _deliveryAddress = State(initialValue: package.deliveryAddress)
         _carrier = State(initialValue: package.carrier)
         _deliveryDate = State(initialValue: package.deliveryDate)
-        _status = State(initialValue: package.status == "Delivered")
+        _status = State(initialValue: package.status == .delivered)
     }
     
     var body: some View {
@@ -41,7 +41,7 @@ struct PackageDetailView: View {
                 package.deliveryAddress = deliveryAddress
                 package.deliveryDate = deliveryDate
                 package.carrier = carrier
-                package.status = status ? "Delivered" : "In Transit"
+                package.status = status ? .delivered : .inTransit
                 packageManager.updatePackage(package)
             }
         }
@@ -55,6 +55,16 @@ struct PackageDetailView: View {
             deliveryAddress: "123 Main St",
             deliveryDate: Date(),
             carrier: CarrierType.FedEx,
-            status: "In Transit"
+            status: .inTransit
+    )).environmentObject(PackageManager())
+}
+
+#Preview {
+    PackageDetailView(package: Package(
+        packageID: "654321",
+        deliveryAddress: "456 Oak St",
+        deliveryDate: Date(),
+        carrier: .UPS,
+        status: .delivered
     )).environmentObject(PackageManager())
 }
