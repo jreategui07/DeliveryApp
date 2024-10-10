@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NewPackageView: View {
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var packageManager: PackageManager
     @State private var packageID = ""
     @State private var deliveryAddress = ""
@@ -34,17 +35,23 @@ struct NewPackageView: View {
             }
             
             Button("Save Package") {
-                let newPackage = Package(
-                    packageID: packageID,
-                    deliveryAddress: deliveryAddress,
-                    deliveryDate: deliveryDate,
-                    carrier: selectedCarrier,
-                    status: status ? .delivered : .inTransit
-                )
-                packageManager.addPackage(newPackage)
+                savePackage()
             }
+            .disabled(packageID.isEmpty || deliveryAddress.isEmpty)
         }
         .navigationTitle("New Package")
+    }
+    
+    private func savePackage() {
+        let newPackage = Package(
+            packageID: packageID,
+            deliveryAddress: deliveryAddress,
+            deliveryDate: deliveryDate,
+            carrier: selectedCarrier,
+            status: status ? .delivered : .inTransit
+        )
+        packageManager.addPackage(newPackage)
+        dismiss()
     }
 }
 

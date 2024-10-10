@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PackageDetailView: View {
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var packageManager: PackageManager
     @State var package: Package
     @State private var deliveryAddress: String
@@ -38,14 +39,20 @@ struct PackageDetailView: View {
             }
             
             Button("Update Package") {
-                package.deliveryAddress = deliveryAddress
-                package.deliveryDate = deliveryDate
-                package.carrier = carrier
-                package.status = status ? .delivered : .inTransit
-                packageManager.updatePackage(package)
+                updatePackage()
             }
+            .disabled(deliveryAddress.isEmpty)
         }
         .navigationTitle("Package Details")
+    }
+    
+    private func updatePackage() {
+        package.deliveryAddress = deliveryAddress
+        package.deliveryDate = deliveryDate
+        package.carrier = carrier
+        package.status = status ? .delivered : .inTransit
+        packageManager.updatePackage(package)
+        dismiss()
     }
 }
 
@@ -62,7 +69,7 @@ struct PackageDetailView: View {
 #Preview {
     PackageDetailView(package: Package(
         packageID: "654321",
-        deliveryAddress: "456 Oak St",
+        deliveryAddress: "",
         deliveryDate: Date(),
         carrier: .UPS,
         status: .delivered
