@@ -17,6 +17,7 @@
 		2B95C2EC2CB828B20054F7E7 /* NewPackageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B95C2EB2CB828B20054F7E7 /* NewPackageView.swift */; };
 		2B95C2EE2CB829020054F7E7 /* PackageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B95C2ED2CB829020054F7E7 /* PackageDetailView.swift */; };
 		2B95C2F02CB82BB40054F7E7 /* PackageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B95C2EF2CB82BB40054F7E7 /* PackageManager.swift */; };
+		2B95C2F32CB83E550054F7E7 /* enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B95C2F22CB83E550054F7E7 /* enums.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		2B95C2EB2CB828B20054F7E7 /* NewPackageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPackageView.swift; sourceTree = "<group>"; };
 		2B95C2ED2CB829020054F7E7 /* PackageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageDetailView.swift; sourceTree = "<group>"; };
 		2B95C2EF2CB82BB40054F7E7 /* PackageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageManager.swift; sourceTree = "<group>"; };
+		2B95C2F22CB83E550054F7E7 /* enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = enums.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 			children = (
 				2B95C2E82CB828570054F7E7 /* Views */,
 				2B95C2E52CB828230054F7E7 /* Utils */,
+				2B95C2F12CB83E380054F7E7 /* Common */,
 				2B95C2E22CB827640054F7E7 /* Models */,
 				2B95C2D42CB823860054F7E7 /* Jonathan_FinalApp.swift */,
 				2B95C2D62CB823860054F7E7 /* ContentView.swift */,
@@ -107,6 +110,14 @@
 				2B95C2ED2CB829020054F7E7 /* PackageDetailView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2B95C2F12CB83E380054F7E7 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				2B95C2F22CB83E550054F7E7 /* enums.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -186,6 +197,7 @@
 				2B95C2D52CB823860054F7E7 /* Jonathan_FinalApp.swift in Sources */,
 				2B95C2E72CB8282E0054F7E7 /* PersistenceManager.swift in Sources */,
 				2B95C2F02CB82BB40054F7E7 /* PackageManager.swift in Sources */,
+				2B95C2F32CB83E550054F7E7 /* enums.swift in Sources */,
 				2B95C2EC2CB828B20054F7E7 /* NewPackageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

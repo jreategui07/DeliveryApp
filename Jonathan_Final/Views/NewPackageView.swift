@@ -12,10 +12,8 @@ struct NewPackageView: View {
     @State private var packageID = ""
     @State private var deliveryAddress = ""
     @State private var deliveryDate = Date()
-    @State private var carrier = "FedEx"
+    @State private var selectedCarrier: CarrierType = .FedEx
     @State private var status = false
-    
-    private let carriers = ["FedEx", "UPS", "DHL"]
     
     var body: some View {
         Form {
@@ -23,16 +21,22 @@ struct NewPackageView: View {
                 TextField("Package ID", text: $packageID)
                 TextField("Delivery Address", text: $deliveryAddress)
                 DatePicker("Delivery Date", selection: $deliveryDate, displayedComponents: .date)
-                Picker("Carrier", selection: $carrier) {
-                    ForEach(carriers, id: \.self) {
-                        Text($0)
+                Picker("Carrier", selection: $selectedCarrier) {
+                    ForEach(CarrierType.allCases) { carrier in
+                        Text(carrier.rawValue).tag(carrier)
                     }
                 }
                 Toggle("Delivered", isOn: $status)
             }
             
             Button("Save Package") {
-                let newPackage = Package(packageID: packageID, deliveryAddress: deliveryAddress, deliveryDate: deliveryDate, carrier: carrier, status: status ? "Delivered" : "In Transit")
+                let newPackage = Package(
+                    packageID: packageID,
+                    deliveryAddress: deliveryAddress,
+                    deliveryDate: deliveryDate,
+                    carrier: selectedCarrier,
+                    status: status ? "Delivered" : "In Transit"
+                )
                 packageManager.addPackage(newPackage)
             }
         }
